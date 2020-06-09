@@ -1,0 +1,7 @@
+marketplace-name: tac-mysql
+charts:
+- chart: mysql
+  version: 6.14.0
+  offered: true
+  overrideValuesFile: overrides.yaml
+  scope: namespace

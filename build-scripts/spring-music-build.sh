@@ -4,5 +4,3 @@ cd spring-music
 ./gradlew clean assemble
 
 ls build/libs
-pwd
-cat spring-music/manifest.yml

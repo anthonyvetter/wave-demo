@@ -1,5 +1,6 @@
 #! /bin/bash
 
-cd spring-petclinic
+cd spring-music
+./gradlew clean assemble
 
-# insert developer tests here...
+ls build/libs

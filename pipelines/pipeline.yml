@@ -47,5 +47,5 @@
               path: build-scripts/build-scripts/spring-music-build.sh  
         - put: deploy-app
           params: 
-            manifest: spring-music/spring-music/manifest.yml
+            manifest: spring-music/manifest.yml
         

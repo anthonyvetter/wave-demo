@@ -22,7 +22,7 @@
         username: admin
         password: YBcU1hFBEwcuR_msuxoZobO5hm6WjB30
         organization: system
-        space: ksm-test
+        space: petclinic-test
         skip_cert_check: true
   jobs:
     - name: gradle-build

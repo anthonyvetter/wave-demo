@@ -38,8 +38,8 @@
             image_resource:
               type: docker-image
               source: 
-                repository: gradle
-                tag: 6.5-jdk8
+                repository: maven
+                tag: 3-jdk-11-openj9
             inputs:
               - name: spring-petclinic
               - name: build-scripts

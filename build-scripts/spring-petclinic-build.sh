@@ -1,4 +1,4 @@
 #! /bin/bash
 
 cd spring-petclinic
-mvn clean package
+# mvn clean package

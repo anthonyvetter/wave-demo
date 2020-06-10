@@ -39,7 +39,7 @@
               type: docker-image
               source: 
                 repository: maven
-                tag: 3-openjdk-11
+                tag: 3-openjdk-8
             inputs:
               - name: spring-petclinic
               - name: build-scripts

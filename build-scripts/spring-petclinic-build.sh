@@ -1,4 +1,4 @@
 #! /bin/bash
 
 cd spring-petclinic
-mvn package
+./mvnw clean install -Dmaven.test.skip=true

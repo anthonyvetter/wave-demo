@@ -5,61 +5,61 @@
       source:
         uri: ((spring-petclinic-repo-uri))
         branch: master
-    - name: build-scripts
-      type: git
-      source:
-        uri: ((build-scripts-repo-uri))
-        branch: master
+    # - name: build-scripts
+    #   type: git
+    #   source:
+    #     uri: ((build-scripts-repo-uri))
+    #     branch: master
     - name: deploy-app
       type: cf
       source:
         api: https://api.sys.watsonville.cf-app.com
-        username: admin
-        password: YBcU1hFBEwcuR_msuxoZobO5hm6WjB30
+        username: ((om-username))
+        password: ((om-password))
         organization: system
         space: spc-ms-test
         skip_cert_check: true
-    - name: s3-storage
-      type: s3
-      source:
-        region_name: us-west-1
-        private: true
-        bucket: wave-demo-bkt
-        access_key_id: AKIARQRRYKQFTM354I5L
-        secret_access_key: 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
+    # - name: s3-storage
+    #   type: s3
+    #   source:
+    #     region_name: us-west-1
+    #     private: true
+    #     bucket: wave-demo-bkt
+    #     access_key_id: ((aws-key))
+    #     secret_access_key: ((aws-secret))
   jobs:
-    - name: petclinic-build
-      public: true
-      serial: true
-      plan:
-        - get: spring-petclinic
-          trigger: true
-        - get: build-scripts
-        - get: s3-storage
-        - task: gradle-build
-          config:
-            platform: linux
-            image_resource:
-              type: docker-image
-              source: 
-                repository: openjdk
-                tag: latest
-            inputs:
-              - name: spring-petclinic
-              - name: build-scripts
-            outputs: 
-              - name: jar-files
-            run:
-              path: build-scripts/build-scripts/spring-petclinic-build.sh  
-        - put: s3-storage
-          params:
-            file: jar-files/*.jar
+    # - name: petclinic-build
+    #   public: true
+    #   serial: true
+    #   plan:
+    #     - get: spring-petclinic
+    #       trigger: true
+    #     - get: build-scripts
+    #     # - get: s3-storage
+    #     - task: gradle-build
+    #       config:
+    #         platform: linux
+    #         image_resource:
+    #           type: docker-image
+    #           source: 
+    #             repository: openjdk
+    #             tag: latest
+    #         inputs:
+    #           - name: spring-petclinic
+    #           - name: build-scripts
+    #         # outputs: 
+    #           - name: jar-files
+    #         run:
+    #           path: build-scripts/build-scripts/spring-petclinic-build.sh  
+    #     # - put: s3-storage
+    #     #   params:
+    #         # file: jar-files/*.jar
     - name: deploy-app
       public: true
       plan:
-      - get: s3-storage
-        passed: [petclinic-build]
-        trigger: true
+      # - get: s3-storage
+        # passed: [petclinic-build]
+        # trigger: true
       - get: spring-petclinic
       - put: deploy-app
         params: 

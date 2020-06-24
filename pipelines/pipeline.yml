@@ -5,11 +5,11 @@
       source:
         uri: ((spring-petclinic-repo-uri))
         branch: master
-    # - name: build-scripts
-    #   type: git
-    #   source:
-    #     uri: ((build-scripts-repo-uri))
-    #     branch: master
+    - name: build-scripts
+      type: git
+      source:
+        uri: ((build-scripts-repo-uri))
+        branch: master
     - name: deploy-app
       type: cf
       source:
@@ -17,51 +17,29 @@
         username: ((om-username))
         password: ((om-password))
         organization: system
-        space: spc-ms-test
+        space: demo
         skip_cert_check: true
-    # - name: s3-storage
-    #   type: s3
-    #   source:
-    #     region_name: us-west-1
-    #     private: true
-    #     bucket: wave-demo-bkt
-    #     access_key_id: ((aws-key))
-    #     secret_access_key: ((aws-secret))
   jobs:
-    # - name: petclinic-build
-    #   public: true
-    #   serial: true
-    #   plan:
-    #     - get: spring-petclinic
-    #       trigger: true
-    #     - get: build-scripts
-    #     # - get: s3-storage
-    #     - task: gradle-build
-    #       config:
-    #         platform: linux
-    #         image_resource:
-    #           type: docker-image
-    #           source: 
-    #             repository: openjdk
-    #             tag: latest
-    #         inputs:
-    #           - name: spring-petclinic
-    #           - name: build-scripts
-    #         # outputs: 
-    #           - name: jar-files
-    #         run:
-    #           path: build-scripts/build-scripts/spring-petclinic-build.sh  
-    #     # - put: s3-storage
-    #     #   params:
-    #         # file: jar-files/*.jar
-    - name: deploy-app
-      public: true
-      plan:
-      # - get: s3-storage
-        # passed: [petclinic-build]
-        # trigger: true
-      - get: spring-petclinic
-      - put: deploy-app
-        params: 
-          manifest: spring-petclinic/manifest.yml
-        
+  - name: petclinic-deploy
+    public: true
+    serial: true
+    plan:
+    - get: spring-petclinic
+      trigger: true
+    - get: build-scripts
+    - task: container-build
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source: 
+            repository: openjdk
+            tag: latest
+        inputs:
+          - name: spring-petclinic
+          - name: build-scripts
+        run:
+          path: build-scripts/build-scripts/spring-petclinic-build.sh  
+    - put: deploy-app
+      params: 
+        manifest: spring-petclinic/manifest.yml
